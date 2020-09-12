@@ -17,7 +17,7 @@ namespace MP3Uploader
         {
             m_bRunning = flag;
         }
-
+        
         protected virtual bool IsFileLocked(String path)
         {
             try
