@@ -110,7 +110,10 @@ namespace MP3Uploader
                 String value = txtIP.Text + "|" + txtUsername.Text + "|" + txtPassword.Text;
                 RegistryKey add = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 add.SetValue("FTPSetting", value);
-                
+
+                String app_data_path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);                
+                String record_path = app_data_path + "\\R";
+                add.SetValue("RecordPath", record_path);
             }
             catch (Exception ex)
             {

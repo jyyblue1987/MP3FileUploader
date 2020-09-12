@@ -21,7 +21,9 @@ namespace MP3UploaderService
         }
 
         protected override void OnStart(string[] args)
-        {            
+        {
+            // System.Diagnostics.Debugger.Launch();
+
             obj = new FileUploaderThread();
             Thread thr = new Thread(new ThreadStart(obj.run));
             thr.Start();
