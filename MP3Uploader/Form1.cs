@@ -23,7 +23,7 @@ namespace MP3Uploader
         private void Form1_Load(object sender, EventArgs e)
         {
             getFTPSetting();
-            
+            showServiceState();            
         }
 
         private void getFTPSetting()
@@ -122,23 +122,23 @@ namespace MP3Uploader
         FileUploaderThread obj;
         private void btnTest_Click(object sender, EventArgs e)
         {
-            //ftp ftpClient = new ftp(@"ftp://" + txtIP.Text + "/", txtUsername.Text, txtPassword.Text);
-            //try
-            //{
-            //    Boolean flag = ftpClient.isConnected();
-            //    if( flag == true )
-            //        MessageBox.Show("Connection is succesed");
-            //    else
-            //        MessageBox.Show("Connection is failed");
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
+            ftp ftpClient = new ftp(@"ftp://" + txtIP.Text + "/", txtUsername.Text, txtPassword.Text);
+            try
+            {
+                Boolean flag = ftpClient.isConnected();
+                if (flag == true)
+                    MessageBox.Show("Connection is succesed");
+                else
+                    MessageBox.Show("Connection is failed");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             //ftpClient = null;
-            obj = new FileUploaderThread();
-            Thread thr = new Thread(new ThreadStart(obj.run));
-            thr.Start();
+            //obj = new FileUploaderThread();
+            //Thread thr = new Thread(new ThreadStart(obj.run));
+            //thr.Start();
 
         }
 

@@ -100,7 +100,7 @@ namespace MP3Uploader
 
                         ftpClient.upload(upload_path, file);
 
-                        File.Delete(file);                        
+                        // File.Delete(file);                        
                     }
                 }
                 catch (Exception e)
