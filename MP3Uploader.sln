@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MP3Uploader", "MP3Uploader\MP3Uploader.csproj", "{5B6EC229-CCF5-4B26-8E72-68E267773FC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MP3UploaderService", "MP3UploaderService\MP3UploaderService.csproj", "{4315B551-034E-4B6F-8C0D-2FC0F1AB0709}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{5B6EC229-CCF5-4B26-8E72-68E267773FC5}.Debug|x86.Build.0 = Debug|x86
 		{5B6EC229-CCF5-4B26-8E72-68E267773FC5}.Release|x86.ActiveCfg = Release|x86
 		{5B6EC229-CCF5-4B26-8E72-68E267773FC5}.Release|x86.Build.0 = Release|x86
+		{4315B551-034E-4B6F-8C0D-2FC0F1AB0709}.Debug|x86.ActiveCfg = Debug|x86
+		{4315B551-034E-4B6F-8C0D-2FC0F1AB0709}.Debug|x86.Build.0 = Debug|x86
+		{4315B551-034E-4B6F-8C0D-2FC0F1AB0709}.Release|x86.ActiveCfg = Release|x86
+		{4315B551-034E-4B6F-8C0D-2FC0F1AB0709}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
