@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
+using Microsoft.Win32;
 
 namespace MP3Uploader
 {
@@ -22,8 +23,44 @@ namespace MP3Uploader
         private void Form1_Load(object sender, EventArgs e)
         {
 
+            
+        }
 
-            showServiceState();
+        private void getFTPSetting()
+        {
+            try
+            {
+                RegistryKey read = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
+                object currentValue = read.GetValue("FTPSeting");
+
+                string val = "";
+                if (currentValue != null)
+                    val = currentValue.ToString();
+
+                String[] value_list = val.Split('|');
+                if (value_list.Length > 0)
+                    txtIP.Text = value_list[0];
+
+                if (value_list.Length > 1)
+                    txtUsername.Text = value_list[2];
+
+                if (value_list.Length > 2)
+                    txtPassword.Text = value_list[3];
+
+                //if (currentValue == null || String.Compare(val, Application.ExecutablePath, true) != 0)
+                //{
+                //    RegistryKey add = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                //    add.SetValue("ScreenLog", Application.ExecutablePath);
+                //}
+                //else
+                //    MessageBox.Show("You are welcome");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Please run as administrator");
+                //return;
+            }
+
         }
 
         private void btnInstall_Click(object sender, EventArgs e)
