@@ -17,6 +17,31 @@ namespace MP3Uploader
             m_bRunning = flag;
         }
 
+        protected virtual bool IsFileLocked(String path)
+        {
+            try
+            {
+                FileInfo file = new FileInfo(path);
+
+                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    stream.Close();
+                }
+            }
+            catch (IOException)
+            {
+                //the file is unavailable because it is:
+                //still being written to
+                //or being processed by another thread
+                //or does not exist (has already been processed)
+                return true;
+            }
+
+            //file is not locked
+            return false;
+        }
+
+
         public void run()
         {
             ftpClient = new ftp(@"ftp://192.168.0.110/", "test", "test");
@@ -33,7 +58,10 @@ namespace MP3Uploader
 
                     string[] files = Directory.GetFiles(record_path);
                     foreach (string file in files)
-                    {                        
+                    {
+                        if (IsFileLocked(file))
+                            continue;
+
                         String filename = Path.GetFileName(file);
 
                         String upload_path = now.Year + "";
@@ -45,6 +73,8 @@ namespace MP3Uploader
                         upload_path += "/" + filename;
 
                         ftpClient.upload(upload_path, file);
+
+                        // File.Delete(file);                        
                     }
                 }
                 catch (Exception e)
