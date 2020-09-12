@@ -37,11 +37,13 @@
             this.txtIP = new System.Windows.Forms.TextBox();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnTest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnInstall
             // 
-            this.btnInstall.Location = new System.Drawing.Point(64, 316);
+            this.btnInstall.Location = new System.Drawing.Point(74, 316);
             this.btnInstall.Name = "btnInstall";
             this.btnInstall.Size = new System.Drawing.Size(121, 35);
             this.btnInstall.TabIndex = 0;
@@ -51,7 +53,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(222, 316);
+            this.btnStart.Location = new System.Drawing.Point(211, 316);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(121, 35);
             this.btnStart.TabIndex = 0;
@@ -62,7 +64,7 @@
             // txtState
             // 
             this.txtState.AutoSize = true;
-            this.txtState.Location = new System.Drawing.Point(61, 286);
+            this.txtState.Location = new System.Drawing.Point(72, 284);
             this.txtState.Name = "txtState";
             this.txtState.Size = new System.Drawing.Size(54, 13);
             this.txtState.TabIndex = 1;
@@ -101,7 +103,6 @@
             this.txtIP.Name = "txtIP";
             this.txtIP.Size = new System.Drawing.Size(187, 20);
             this.txtIP.TabIndex = 3;
-            this.txtIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtUsername
             // 
@@ -117,6 +118,26 @@
             this.txtPassword.Size = new System.Drawing.Size(187, 20);
             this.txtPassword.TabIndex = 3;
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(74, 142);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(121, 35);
+            this.btnSave.TabIndex = 0;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnTest
+            // 
+            this.btnTest.Location = new System.Drawing.Point(211, 142);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(121, 35);
+            this.btnTest.TabIndex = 0;
+            this.btnTest.Text = "Test Connection";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -130,6 +151,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtState);
             this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.btnTest);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnInstall);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -150,6 +173,8 @@
         private System.Windows.Forms.TextBox txtIP;
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnTest;
     }
 }
 

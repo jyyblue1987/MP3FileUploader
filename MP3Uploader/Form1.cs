@@ -22,7 +22,7 @@ namespace MP3Uploader
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            getFTPSetting();
             
         }
 
@@ -31,7 +31,7 @@ namespace MP3Uploader
             try
             {
                 RegistryKey read = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
-                object currentValue = read.GetValue("FTPSeting");
+                object currentValue = read.GetValue("FTPSetting");
 
                 string val = "";
                 if (currentValue != null)
@@ -42,18 +42,10 @@ namespace MP3Uploader
                     txtIP.Text = value_list[0];
 
                 if (value_list.Length > 1)
-                    txtUsername.Text = value_list[2];
+                    txtUsername.Text = value_list[1];
 
                 if (value_list.Length > 2)
-                    txtPassword.Text = value_list[3];
-
-                //if (currentValue == null || String.Compare(val, Application.ExecutablePath, true) != 0)
-                //{
-                //    RegistryKey add = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                //    add.SetValue("ScreenLog", Application.ExecutablePath);
-                //}
-                //else
-                //    MessageBox.Show("You are welcome");
+                    txtPassword.Text = value_list[2];
             }
             catch (Exception ex)
             {
@@ -109,6 +101,45 @@ namespace MP3Uploader
                 btnStart.Text = "Stop";
             else
                 btnStart.Text = "Start";
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                String value = txtIP.Text + "|" + txtUsername.Text + "|" + txtPassword.Text;
+                RegistryKey add = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                add.SetValue("FTPSetting", value);
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Please run as administrator");
+                //return;
+            }
+        }
+
+        FileUploaderThread obj;
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            //ftp ftpClient = new ftp(@"ftp://" + txtIP.Text + "/", txtUsername.Text, txtPassword.Text);
+            //try
+            //{
+            //    Boolean flag = ftpClient.isConnected();
+            //    if( flag == true )
+            //        MessageBox.Show("Connection is succesed");
+            //    else
+            //        MessageBox.Show("Connection is failed");
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
+            //ftpClient = null;
+            obj = new FileUploaderThread();
+            Thread thr = new Thread(new ThreadStart(obj.run));
+            thr.Start();
+
         }
 
     }

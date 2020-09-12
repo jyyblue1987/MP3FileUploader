@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.IO;
-using System.Threading;
+using Microsoft.Win32;
 
 namespace MP3Uploader
 {
@@ -17,7 +17,7 @@ namespace MP3Uploader
         {
             m_bRunning = flag;
         }
-        
+
         protected virtual bool IsFileLocked(String path)
         {
             try
@@ -45,7 +45,32 @@ namespace MP3Uploader
 
         public void run()
         {
-            ftpClient = new ftp(@"ftp://192.168.0.110/", "test", "test");
+            String ip = "", username = "", password = "";
+            try
+            {
+                RegistryKey read = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
+                object currentValue = read.GetValue("FTPSetting");
+
+                string val = "";
+                if (currentValue != null)
+                    val = currentValue.ToString();
+
+                String[] value_list = val.Split('|');
+                if (value_list.Length > 0)
+                    ip = value_list[0];
+
+                if (value_list.Length > 1)
+                    username = value_list[1];
+
+                if (value_list.Length > 2)
+                    password = value_list[2];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            ftpClient = new ftp(@"ftp://" + ip + "/", username, password);
             
             String app_data_path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             Console.WriteLine(app_data_path);
@@ -75,7 +100,7 @@ namespace MP3Uploader
 
                         ftpClient.upload(upload_path, file);
 
-                        // File.Delete(file);                        
+                        File.Delete(file);                        
                     }
                 }
                 catch (Exception e)
