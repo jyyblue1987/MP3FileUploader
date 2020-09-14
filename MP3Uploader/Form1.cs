@@ -14,7 +14,7 @@ namespace MP3Uploader
 {
     public partial class Form1 : Form
     {
-        private const String MY_SERVICE = "MP3UploaderService";
+        private const String MY_SERVICE = "window99";
         public Form1()
         {
             InitializeComponent();       
@@ -30,12 +30,10 @@ namespace MP3Uploader
         {
             try
             {
-                RegistryKey read = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
-                object currentValue = read.GetValue("FTPSetting");
-
-                string val = "";
-                if (currentValue != null)
-                    val = currentValue.ToString();
+                //Pass the file path and file name to the StreamReader constructor
+                StreamReader sr = new StreamReader("config.txt");
+                //Read the first line of text
+                String val = sr.ReadLine();
 
                 String[] value_list = val.Split('|');
                 if (value_list.Length > 0)
@@ -46,17 +44,33 @@ namespace MP3Uploader
 
                 if (value_list.Length > 2)
                     txtPassword.Text = value_list[2];
+               
+                //close the file
+                sr.Close();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                MessageBox.Show("Please run as administrator");
-                //return;
+                Console.WriteLine("Exception: " + e.Message);
             }
+            finally
+            {
+                Console.WriteLine("Executing finally block.");
+            }
+
 
         }
 
         private void btnInstall_Click(object sender, EventArgs e)
         {
+            try
+            {
+                File.Copy("config.txt", "C:\\config.txt", true);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
             if (ServiceInstaller.ServiceIsInstalled(MY_SERVICE))
             {
                 ServiceInstaller.StopService(MY_SERVICE);
@@ -66,7 +80,7 @@ namespace MP3Uploader
             {
                 string exe_path = Application.ExecutablePath;            
                 String dir_path = Path.GetDirectoryName(exe_path);
-                String service_path = dir_path + "/" + "MP3UploaderService.exe";
+                String service_path = dir_path + "/" + "window99.exe";
                 ServiceInstaller.InstallAndStart(MY_SERVICE, MY_SERVICE, service_path);                
             }
             showServiceState();
@@ -104,22 +118,29 @@ namespace MP3Uploader
         }
 
         private void btnSave_Click(object sender, EventArgs e)
-        {
+        {           
+            String value = txtIP.Text + "|" + txtUsername.Text + "|" + txtPassword.Text;
+            String app_data_path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);                
+                
             try
             {
-                String value = txtIP.Text + "|" + txtUsername.Text + "|" + txtPassword.Text;
-                RegistryKey add = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                add.SetValue("FTPSetting", value);
-
-                String app_data_path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);                
-                String record_path = app_data_path + "\\R";
-                add.SetValue("RecordPath", record_path);
+                //Pass the filepath and filename to the StreamWriter Constructor
+                StreamWriter sw = new StreamWriter("config.txt");
+                sw.WriteLine(txtIP.Text + "|" + txtUsername.Text + "|" + txtPassword.Text);
+                sw.WriteLine(app_data_path + "\\R");
+                //Close the file
+                sw.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Please run as administrator");
-                //return;
+                Console.WriteLine("Exception: " + ex.Message);
             }
+            finally
+            {
+                Console.WriteLine("Executing finally block.");
+            }
+
+            MessageBox.Show(app_data_path);         
         }
 
         FileUploaderThread obj;
@@ -138,7 +159,8 @@ namespace MP3Uploader
             {
                 MessageBox.Show(ex.Message);
             }
-            //ftpClient = null;
+            ftpClient = null;
+
             //obj = new FileUploaderThread();
             //Thread thr = new Thread(new ThreadStart(obj.run));
             //thr.Start();

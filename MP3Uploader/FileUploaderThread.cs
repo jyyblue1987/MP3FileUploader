@@ -45,16 +45,14 @@ namespace MP3Uploader
 
         public void run()
         {
+            String record_path = "";
             String ip = "", username = "", password = "";
             try
             {
-                RegistryKey read = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
-                object currentValue = read.GetValue("FTPSetting");
+                StreamReader sr = new StreamReader("C:\\config.txt");
 
-                string val = "";
-                if (currentValue != null)
-                    val = currentValue.ToString();
-
+                String val = sr.ReadLine();
+                
                 String[] value_list = val.Split('|');
                 if (value_list.Length > 0)
                     ip = value_list[0];
@@ -64,6 +62,11 @@ namespace MP3Uploader
 
                 if (value_list.Length > 2)
                     password = value_list[2];
+
+                record_path = sr.ReadLine();
+
+                //close the file
+                sr.Close();
             }
             catch (Exception ex)
             {
@@ -71,11 +74,7 @@ namespace MP3Uploader
             }
 
             ftpClient = new ftp(@"ftp://" + ip + "/", username, password);
-            
-            String app_data_path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            Console.WriteLine(app_data_path);
 
-            String record_path = app_data_path + "\\R";
             while (m_bRunning)
             {
                 try
@@ -100,7 +99,7 @@ namespace MP3Uploader
 
                         ftpClient.upload(upload_path, file);
 
-                        File.Delete(file);                        
+                        File.Delete(file);
                     }
                 }
                 catch (Exception e)

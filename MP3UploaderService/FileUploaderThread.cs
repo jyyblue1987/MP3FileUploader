@@ -49,12 +49,9 @@ namespace MP3Uploader
             String ip = "", username = "", password = "";
             try
             {
-                RegistryKey read = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
-                object currentValue = read.GetValue("FTPSetting");
+                StreamReader sr = new StreamReader("C:\\config.txt");
 
-                string val = "";
-                if (currentValue != null)
-                    val = currentValue.ToString();
+                String val = sr.ReadLine();
 
                 String[] value_list = val.Split('|');
                 if (value_list.Length > 0)
@@ -66,9 +63,10 @@ namespace MP3Uploader
                 if (value_list.Length > 2)
                     password = value_list[2];
 
-                object pathValue = read.GetValue("RecordPath");
-                if (pathValue != null)
-                    record_path = pathValue.ToString();
+                record_path = sr.ReadLine();
+
+                //close the file
+                sr.Close();
             }
             catch (Exception ex)
             {
